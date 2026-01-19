@@ -5,7 +5,7 @@ using Firebase;
 using TMPro;
 using Firebase.Extensions;
 
-public class AutyhManager : MonoBehaviour
+public class AuthManager : MonoBehaviour
 {
     public TMP_InputField emailInput;
     public TMP_InputField passwordInput;
@@ -20,7 +20,8 @@ public class AutyhManager : MonoBehaviour
             InitializeAppFirebase();
         }
         else
-            FirebaseInit.OnFirebaseReady += InitializeAppFirebase;
+            //FirebaseInit.OnFirebaseReady += InitializeAppFirebase;
+            AppEventHub.OnFirebaseInitialized.AddListener(InitializeAppFirebase);
     }
 
     private void InitializeAppFirebase()

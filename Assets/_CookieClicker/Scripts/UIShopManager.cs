@@ -24,7 +24,7 @@ public class UIShopManager : MonoBehaviour
     DatabaseReference databaseReference;
     bool firebaseIsReady = false;
 
-    private async void Awake()
+    private async void Start()
     {
         var dependency = await FirebaseApp.CheckAndFixDependenciesAsync();
 

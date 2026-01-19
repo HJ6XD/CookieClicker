@@ -11,8 +11,8 @@ public class dataToSave
 {
     public string userName;
     public int totalCoins;
-    public int crrLevel;
-    public int highScore;
+    //public int crrLevel;
+    //public int highScore;
 }
 
 public class DataSaver : MonoBehaviour
@@ -22,6 +22,8 @@ public class DataSaver : MonoBehaviour
     private DatabaseReference dbRef;
     private FirebaseAuth auth;
     private string userId;
+
+    [SerializeField] private MoneyManager moneyManager;
 
     // Initialize Firebase, ensure a user exists, then set up DB
     private async void Awake()
@@ -97,6 +99,7 @@ public class DataSaver : MonoBehaviour
         {
             dts = JsonUtility.FromJson<dataToSave>(jsonData);
             Debug.Log("Server data loaded for UID: " + userId);
+            moneyManager.UpdateMoney(dts.totalCoins);
         }
         else
         {
@@ -121,5 +124,11 @@ public class DataSaver : MonoBehaviour
             userId = auth.CurrentUser.UserId; // refresh if needed
         }
         return true;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+            SaveDataFn();        
     }
 }

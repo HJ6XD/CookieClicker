@@ -3,8 +3,8 @@ using TMPro;
 
 public class MoneyManager : MonoBehaviour
 {
-    private int moneyCollected = 0;
-    [SerializeField] private TextMeshProUGUI moneyText;
+    public int moneyCollected = 0;
+    public TextMeshProUGUI moneyText;
 
     private void Start()
     {

@@ -1,14 +1,14 @@
 using UnityEngine;
 using Firebase;
 using Firebase.Extensions;
-using System;
 
 
 public class FirebaseInit : MonoBehaviour
 {
     public static bool IsFirebaseReady { get; private set; } = false;
     public static FirebaseApp AppInstance { get; private set; }
-    public static event Action OnFirebaseReady;
+
+
     void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -25,7 +25,7 @@ public class FirebaseInit : MonoBehaviour
 
                 IsFirebaseReady = true;
                 Debug.Log("Firebase Initialized");
-                OnFirebaseReady?.Invoke();
+                AppEventHub.OnFirebaseInitialized.Invoke();
             }
             else
             {
