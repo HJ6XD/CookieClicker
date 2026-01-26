@@ -1,7 +1,6 @@
 using UnityEngine;
 using Firebase;
 using Firebase.Database;
-using Firebase.Extensions;
 using System;
 using System.Collections;
 
@@ -9,16 +8,21 @@ using System.Collections;
 public class ShopItem
 {
     public string id;
-    public bool active;
+    public string iconPath;
+    public string type;
+    public string Descripcion;
     public string name;
     public string price;
-    public string iconPath;
 }
 
 public class UIShopManager : MonoBehaviour
 {
     public Transform container;
     public GameObject itemPrefab;
+
+    [Header("Refs")]
+    public GameManager gameManager; // <-- NUEVO: asigna en Inspector
+
     string path = "store/items";
 
     DatabaseReference databaseReference;
@@ -33,14 +37,12 @@ public class UIShopManager : MonoBehaviour
             databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
             firebaseIsReady = true;
         }
-
         else Debug.LogError("Firebase is unavailable");
     }
 
     public void LoadStore()
     {
         if (!firebaseIsReady) return;
-
         StartCoroutine(FillStore());
     }
 
@@ -58,26 +60,29 @@ public class UIShopManager : MonoBehaviour
         }
 
         var snap = task.Result;
-
         if (!snap.Exists) yield break;
 
-        foreach (var child in snap.Children) {
+        foreach (var child in snap.Children)
+        {
             var item = JsonUtility.FromJson<ShopItem>(child.GetRawJsonValue());
             item.id = child.Key;
 
             var itemInstance = Instantiate(itemPrefab, container);
             UIStoreItem storeItem = itemInstance.GetComponent<UIStoreItem>();
 
+            // NUEVO: inyección de GameManager al prefab instanciado
+            if (storeItem != null)
+                storeItem.Init(gameManager);
+
             var icon = LoadLocalSprite(item.iconPath);
+
             storeItem.Bind(item, icon);
         }
     }
 
     Sprite LoadLocalSprite(string iconPath)
     {
-        Debug.LogWarning(iconPath);
-
-        if(string.IsNullOrEmpty(iconPath)) return null;
+        if (string.IsNullOrEmpty(iconPath)) return null;
         return Resources.Load<Sprite>(iconPath);
     }
 }
