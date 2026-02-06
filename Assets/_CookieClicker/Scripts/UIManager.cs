@@ -32,4 +32,8 @@ public class UIManager : MonoBehaviour
             screen.SetActive(screen == currentScreen);
 
     }
+    public void LoadGameplayScreen()
+    {
+        AppEventHub.OnGameStateChange.Invoke(GameState.Store);
+    }
 }

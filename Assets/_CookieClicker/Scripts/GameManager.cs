@@ -1,5 +1,10 @@
 using UnityEngine;
-
+public enum GameState
+{
+    Loading,
+    Store,
+    Auth
+}
 public class GameManager : MonoBehaviour
 {
     [Header("Refs")]
@@ -40,17 +45,18 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
-        if (dataSaver.dts.totalCoins < price)
+        if (MoneyManager.instance.moneyCollected < price)
         {
             Debug.Log("No alcanza monedas.");
             return false;
         }
 
         // 1) Cobrar
-        dataSaver.dts.totalCoins -= price;
+        MoneyManager.instance.UpdateMoney( -price);
 
         // 2) Registrar compra en inventario
         dataSaver.RegisterPurchase(item.id, 1);
+        MoneyManager.instance.BuyAnUpgrade(item.id);
 
         // 3) Guardar en Firebase
         dataSaver.SaveDataFn();
@@ -58,4 +64,5 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Compra OK: {item.id} (price={price}). Coins restantes={dataSaver.dts.totalCoins}");
         return true;
     }
+        
 }

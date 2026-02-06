@@ -13,6 +13,8 @@ public class AuthManager : MonoBehaviour
 
     private FirebaseAuth auth;
     private DatabaseReference dbRef;
+
+    public DataSaver dataSaver;
     void Start()
     {
         if (FirebaseInit.IsFirebaseReady)
@@ -61,6 +63,8 @@ public class AuthManager : MonoBehaviour
             Debug.Log("User created: " + user.Email);
             //SaveUserData(user.UserId, username);
         });
+
+        dataSaver.dts.userName = username;
     }
 
     public void LoginUser()

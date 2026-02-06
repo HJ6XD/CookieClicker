@@ -70,6 +70,11 @@ public class DataSaver : MonoBehaviour
         if (dts == null) dts = new dataToSave();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.S)) SaveDataFn();
+    }
+
     // ---- NUEVO: registrar compra en el inventario ----
     public void RegisterPurchase(string itemId, int addCount = 1)
     {
@@ -100,6 +105,8 @@ public class DataSaver : MonoBehaviour
     public void SaveDataFn()
     {
         if (!IsReady()) return;
+
+        dts.totalCoins = MoneyManager.instance.moneyCollected;
 
         string json = JsonUtility.ToJson(dts);
         dbRef.Child("users").Child(userId).SetRawJsonValueAsync(json)
@@ -142,6 +149,10 @@ public class DataSaver : MonoBehaviour
         }
     }
 
+    private void LoadUpgrades()
+    {
+
+    }
     private bool IsReady()
     {
         if (auth == null || dbRef == null)
