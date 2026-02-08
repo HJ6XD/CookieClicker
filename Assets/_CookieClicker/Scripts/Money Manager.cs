@@ -128,6 +128,6 @@ public class MoneyManager : MonoBehaviour
 
     private void UpdateMoneyText()
     {
-        moneyText.text = moneyCollected.ToString();
+        moneyText.text = "$" + moneyCollected.ToString();
     }
 }

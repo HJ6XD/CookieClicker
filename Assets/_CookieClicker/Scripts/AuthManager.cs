@@ -61,10 +61,9 @@ public class AuthManager : MonoBehaviour
 
             FirebaseUser user = task.Result.User;
             Debug.Log("User created: " + user.Email);
-            //SaveUserData(user.UserId, username);
+            SaveUserData(user.UserId, username);
         });
 
-        dataSaver.dts.userName = username;
     }
 
     public void LoginUser()

@@ -34,7 +34,6 @@ public class DataSaver : MonoBehaviour
     private DatabaseReference dbRef;
     private FirebaseAuth auth;
     private string userId;
-
     // Initialize Firebase, ensure a user exists, then set up DB
     private async void Awake()
     {
@@ -122,6 +121,7 @@ public class DataSaver : MonoBehaviour
     {
         if (!IsReady()) return;
         StartCoroutine(LoadDataEnum());
+        
     }
 
     private IEnumerator LoadDataEnum()
@@ -147,11 +147,16 @@ public class DataSaver : MonoBehaviour
         {
             Debug.Log("No data found for UID: " + userId);
         }
+
+        LoadUpgrades();
+        MoneyManager.instance.UpdateMoney(dts.totalCoins);
     }
 
     private void LoadUpgrades()
     {
-
+        foreach (PurchasedItemEntry entry in dts.purchasedItems) {
+            MoneyManager.instance.SetUpgradeNumber(entry.id, entry.count);
+        }
     }
     private bool IsReady()
     {

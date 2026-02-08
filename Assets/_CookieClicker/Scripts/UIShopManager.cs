@@ -42,7 +42,18 @@ public class UIShopManager : MonoBehaviour
 
     public void LoadStore()
     {
-        if (!firebaseIsReady) return;
+        if (!firebaseIsReady || databaseReference == null)
+        {
+            Debug.LogWarning("Firebase no esta listos");
+            StartCoroutine(WaitAndLoadStore());
+            return;
+        }
+        StartCoroutine(FillStore());
+    }
+
+    IEnumerator WaitAndLoadStore()
+    {
+        yield return new WaitUntil(() => firebaseIsReady && databaseReference != null);
         StartCoroutine(FillStore());
     }
 

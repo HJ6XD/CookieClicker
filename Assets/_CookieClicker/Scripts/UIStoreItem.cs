@@ -15,7 +15,6 @@ public class UIStoreItem : MonoBehaviour
 
     private ShopItem boundItem;
     private GameManager gameManager;
-
     public void Init(GameManager gm)
     {
         gameManager = gm;
@@ -26,7 +25,6 @@ public class UIStoreItem : MonoBehaviour
             buyButton.onClick.AddListener(OnBuyClicked);
         }
     }
-
     public void Bind(ShopItem item, Sprite itemIcon)
     {
         boundItem = item;
