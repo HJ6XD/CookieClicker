@@ -14,6 +14,9 @@ public class MoneyManager : MonoBehaviour
 
     public int moneyCollected = 0;
     public TextMeshProUGUI moneyText;
+    public TextMeshProUGUI storeMoneyText;
+    public int money_second = 0;
+    public TextMeshProUGUI MoneyPerSecondText;
 
     //Cantidad de mejoras pasivas
     private Dictionary<string, int> passiveDictionary;
@@ -111,7 +114,10 @@ public class MoneyManager : MonoBehaviour
         //Falsificadora
         int falsificadora = passiveDictionary["falsificadora"] * 1000;
 
-        return obrera + tanque + ladrona + falsificadora;        
+        money_second = obrera + tanque + ladrona + falsificadora;
+        MoneyPerSecondText.text = "$" + money_second.ToString();
+
+        return money_second;        
     }
 
     public void OnCickMoneyButton()
@@ -129,5 +135,6 @@ public class MoneyManager : MonoBehaviour
     private void UpdateMoneyText()
     {
         moneyText.text = "$" + moneyCollected.ToString();
+        storeMoneyText.text = "$" + moneyCollected.ToString();
     }
 }

@@ -3,7 +3,8 @@ public enum GameState
 {
     Loading,
     Store,
-    Auth
+    Auth,
+    Gameplay
 }
 public class GameManager : MonoBehaviour
 {
@@ -64,5 +65,15 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Compra OK: {item.id} (price={price}). Coins restantes={dataSaver.dts.totalCoins}");
         return true;
     }
-        
+
+    public void SaveAndQuit()
+    {
+        dataSaver.SaveDataFn();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+    }
+
 }

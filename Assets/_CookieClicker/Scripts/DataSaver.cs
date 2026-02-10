@@ -37,6 +37,37 @@ public class DataSaver : MonoBehaviour
     // Initialize Firebase, ensure a user exists, then set up DB
     private async void Awake()
     {
+        //var deps = await FirebaseApp.CheckAndFixDependenciesAsync();
+        //if (deps != DependencyStatus.Available)
+        //{
+        //    Debug.LogError("Firebase dependencies not available: " + deps);
+        //    return;
+        //}
+
+        //auth = FirebaseAuth.DefaultInstance;
+
+        //// Auto sign in anonymously if no cached user
+        //if (auth.CurrentUser == null)
+        //{
+        //    Debug.Log("No user found. Signing in anonymously…");
+        //    try
+        //    {
+        //        await auth.SignInAnonymouslyAsync();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.LogError("Anonymous sign-in failed: " + e);
+        //        return;
+        //    }
+        //}
+
+        //userId = auth.CurrentUser.UserId;
+        //dbRef = FirebaseDatabase.DefaultInstance.RootReference;
+
+        //Debug.Log("Firebase ready. Current UID = " + userId);
+
+        //if (dts == null) dts = new dataToSave();
+
         var deps = await FirebaseApp.CheckAndFixDependenciesAsync();
         if (deps != DependencyStatus.Available)
         {
@@ -45,33 +76,12 @@ public class DataSaver : MonoBehaviour
         }
 
         auth = FirebaseAuth.DefaultInstance;
-
-        // Auto sign in anonymously if no cached user
-        if (auth.CurrentUser == null)
-        {
-            Debug.Log("No user found. Signing in anonymously…");
-            try
-            {
-                await auth.SignInAnonymouslyAsync();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Anonymous sign-in failed: " + e);
-                return;
-            }
-        }
-
-        userId = auth.CurrentUser.UserId;
         dbRef = FirebaseDatabase.DefaultInstance.RootReference;
 
-        Debug.Log("Firebase ready. Current UID = " + userId);
+        if (dts == null)
+            dts = new dataToSave();
 
-        if (dts == null) dts = new dataToSave();
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyUp(KeyCode.S)) SaveDataFn();
+        Debug.Log("Firebase core ready (waiting for auth)");
     }
 
     // ---- NUEVO: registrar compra en el inventario ----

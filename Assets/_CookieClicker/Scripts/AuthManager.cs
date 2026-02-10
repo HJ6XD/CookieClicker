@@ -7,6 +7,18 @@ using Firebase.Extensions;
 
 public class AuthManager : MonoBehaviour
 {
+    public static AuthManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null) {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);        
+    }
+
+
     public TMP_InputField emailInput;
     public TMP_InputField passwordInput;
     public TMP_InputField usernameInput;
@@ -61,7 +73,7 @@ public class AuthManager : MonoBehaviour
 
             FirebaseUser user = task.Result.User;
             Debug.Log("User created: " + user.Email);
-            SaveUserData(user.UserId, username);
+            //SaveUserData(user.UserId, username);
         });
 
     }
